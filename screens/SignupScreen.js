@@ -1,29 +1,158 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, Image, TextInput, Button,TouchableOpacity } from 'react-native';
+import '../global';
+import Icon from 'react-native-vector-icons/Ionicons';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import { Sae, Kohana } from 'react-native-textinput-effects';
 
-export default class SignupScreen extends Component {
+
+export default class SignupScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+        username:'',
+        password:'',
+        rePass:''
     };
   }
-
+  
   render() {
     return (
-      <View style={styles.container}>
-        <Text> Register</Text>
-      </View>
+        <SafeAreaView style={styles.container}>
+            <View style={{marginTop:global.headerHeight}}>
+                <Image source = {require('../image/logo.png')} style={styles.logoImg}></Image>
+                <Text style={styles.logo} > AudioFace </Text>
+            </View>
+            <View>
+                <Text style={styles.line} > {'Welcome'.toUpperCase()} </Text>
+            </View>
+            <View style={{marginBottom:100}}>
+                <View style={styles.inputSect}>
+                     <Kohana
+                        style={styles.input}
+                        label={'Username'}
+                        iconClass={FontAwesomeIcon}
+                        iconName={'user'}
+                        iconColor={global.themeColor}
+                        inputPadding={16}
+                        labelStyle={{ color: '#D25830' }}
+                        inputStyle={{ color: '#D25830' }}
+                        labelContainerStyle={{ padding: 0 }}
+                        iconContainerStyle={{ padding: 15 }}
+                        useNativeDriver
+                        onChangeText={(text) => this.setState({username:text})}
+                        value={this.state.username}
+                    />
+                </View>
+                <View style={styles.inputSect}>
+                    <Kohana
+                        style={styles.input}
+                        label={'Password'}
+                        iconClass={FontAwesomeIcon}
+                        iconName={'lock'}
+                        iconColor={global.themeColor}
+                        inputPadding={16}
+                        labelStyle={{ color: '#D25830' }}
+                        inputStyle={{ color: '#D25830' }}
+                        labelContainerStyle={{ paddingBottom: 0 }}
+                        iconContainerStyle={{ padding: 15 }}
+                        useNativeDriver
+                        onChangeText={(text) => this.setState({password:text})}
+                        value={this.state.password}
+                    />
+                </View>
+                <View style={styles.inputSect}>
+                    <Kohana
+                        style={styles.input}
+                        label={'Confirm Password'}
+                        iconClass={FontAwesomeIcon}
+                        iconName={'key'}
+                        iconColor={global.themeColor}
+                        inputPadding={16}
+                        labelStyle={{ color: '#D25830' }}
+                        inputStyle={{ color: '#D25830' }}
+                        labelContainerStyle={{ paddingBottom: 0 }}
+                        iconContainerStyle={{ padding: 15 }}
+                        useNativeDriver
+                        onChangeText={(text) => this.setState({rePass:text})}
+                        value={this.state.rePass}
+                    />
+                </View>
+            </View>
+            <View>
+                <TouchableOpacity
+                    onPress={()=>{this.props.navigation.navigate('Signup')}}
+                    style={styles.loginBut}
+                >
+                    <Text style={{color:'white', fontWeight:'bold', fontSize:20}}> Signup Now </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={()=>{this.props.navigation.navigate('Login')}}
+                    style={styles.regisBut}
+                >
+                    <Text style={{color:'black', fontWeight:'bold', fontSize:20}}> Have Account </Text>
+                </TouchableOpacity>
+            </View>
+
+        </SafeAreaView>
     );
   }
 }
 
-
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
+        flex:1,
+        backgroundColor: global.background,
+        alignItems: 'center'
     },
+    logo:{
+        fontSize: 30,
+        color: global.logoColor,
+        marginBottom: 25,
+        letterSpacing:2.5,
+    },
+    line:{
+        letterSpacing:4,
+        marginBottom:20
+    },
+    logoImg:{
+        width: 200,
+        height: 50,
+    },
+    inputSect: {
+        // flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width:280,
+        marginTop:20,
+        backgroundColor:'white'
+    },
+    icon:{
+        fontSize:25,
+        marginTop: 30,
+        padding:10,
+        color:global.themeColor
+    },
+    loginBut:{
+        backgroundColor:global.themeColor,
+        alignItems: 'center',
+        width:200,
+        padding:15,
+        marginBottom:30,
+        borderRadius:10
+    },
+    regisBut:{
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        width:200,
+        padding:15,
+        marginBottom:30,
+        borderRadius:10,
+        shadowOffset:{  width: 10,  height: 10,  },
+        shadowColor: 'grey',
+        shadowOpacity: 0.2,
+        shadowRadius:2
+    }
   });
   
