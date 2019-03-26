@@ -2,16 +2,19 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, Image, TextInput, Button,TouchableOpacity } from 'react-native';
 import '../global';
 import Icon from 'react-native-vector-icons/Ionicons';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import { Sae, Kohana } from 'react-native-textinput-effects';
+
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        username:"",
-        password:""
+        username:'',
+        password:''
     };
   }
-
+  
   render() {
     return (
         <SafeAreaView style={styles.container}>
@@ -24,41 +27,74 @@ export default class LoginScreen extends React.Component {
             </View>
             <View style={{marginBottom:150}}>
                 <View style={styles.inputSect}>
-                    <Icon name = "ios-person" style={styles.icon}></Icon>
-                    <TextInput
-                        style = {styles.input}
-                        placeholder="Username"
-                        placeholderTextColor = {global.placeholder}
+                     <Kohana
+                        style={styles.input}
+                        label={'Username'}
+                        iconClass={FontAwesomeIcon}
+                        iconName={'user'}
+                        iconColor={global.themeColor}
+                        inputPadding={16}
+                        labelStyle={{ color: '#D25830' }}
+                        inputStyle={{ color: '#D25830' }}
+                        labelContainerStyle={{ padding: 0 }}
+                        iconContainerStyle={{ padding: 15 }}
+                        useNativeDriver
                         onChangeText={(text) => this.setState({username:text})}
                         value={this.state.username}
                     />
                 </View>
                 <View style={styles.inputSect}>
-                    <Icon name = "ios-lock" style={styles.icon}></Icon>
-                    <TextInput
-                        style = {styles.input}
-                        placeholder="Password"
-                        placeholderTextColor = {global.placeholder}
+                    <Kohana
+                        style={styles.input}
+                        label={'Password'}
+                        iconClass={FontAwesomeIcon}
+                        iconName={'lock'}
+                        iconColor={global.themeColor}
+                        inputPadding={16}
+                        labelStyle={{ color: '#D25830' }}
+                        inputStyle={{ color: '#D25830' }}
+                        labelContainerStyle={{ paddingBottom: 0 }}
+                        iconContainerStyle={{ padding: 15 }}
+                        useNativeDriver
                         onChangeText={(text) => this.setState({password:text})}
                         value={this.state.password}
                     />
                 </View>
             </View>
-            <View>
+            <View style={styles.buttonSect}>
                 <TouchableOpacity
                     onPress={()=>{this.props.navigation.navigate('Signup')}}
                     style={styles.loginBut}
                 >
-                    <Text> Login Now </Text>
+                    <Text style={{color:'white', fontWeight:'bold', fontSize:20}}> Login Now </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={()=>{this.props.navigation.navigate('Signup')}}
-                    style={styles.loginBut}
+                    style={styles.regisBut}
                 >
-                    <Text> Login Now </Text>
+                    <Text style={{color:'black', fontWeight:'bold', fontSize:20}}> Create Account </Text>
                 </TouchableOpacity>
+                <View>
+                    <TouchableOpacity
+                            onPress={()=>{this.props.navigation.navigate('Signup')}}
+                            style={styles.line}
+                        >
+                            <Text style={{
+                                color:global.placeholder, 
+                                fontSize:20,
+                                marginTop:5,
+                                alignItems: 'center',
+                                // fontWeight:'bold',
+                                paddingLeft:18
+                            }}> 
+                                Continue As Guest 
+                            </Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.buttonSect}>
+                    <Text style={{letterSpacing:2, color:global.logoColor}} > {'Listen to your mood'.toUpperCase()} </Text>
+                </View>
             </View>
-
         </SafeAreaView>
     );
   }
@@ -90,16 +126,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width:280,
-    },
-    input:{
-        flex:1,
-        marginTop: 30,
-        padding:20,
-        height: 40,
-        borderColor: 'black',
-        borderWidth: 0.6,
-        borderRadius: 20,
-        backgroundColor:"#fff",
+        marginTop:30,
+        backgroundColor:'white'
     },
     icon:{
         fontSize:25,
@@ -110,10 +138,26 @@ const styles = StyleSheet.create({
     loginBut:{
         backgroundColor:global.themeColor,
         alignItems: 'center',
-        width:150,
+        width:200,
         padding:15,
         marginBottom:30,
         borderRadius:10
+    },
+    regisBut:{
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        width:200,
+        padding:15,
+        marginBottom:30,
+        borderRadius:10,
+        shadowOffset:{  width: 10,  height: 10,  },
+        shadowColor: 'grey',
+        shadowOpacity: 0.2,
+        shadowRadius:2
+    },
+    buttonSect:{
+        alignItems: 'center',
+        justifyContent: 'center',
     }
   });
   
