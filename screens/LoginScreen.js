@@ -82,17 +82,15 @@ export default class LoginScreen extends React.Component {
                             <Text style={{
                                 color:global.placeholder, 
                                 fontSize:20,
-                                marginTop:5,
                                 alignItems: 'center',
-                                // fontWeight:'bold',
                                 paddingLeft:18
                             }}> 
                                 Continue As Guest 
                             </Text>
                     </TouchableOpacity>
                 </View>
-                <View style={styles.buttonSect}>
-                    <Text style={{letterSpacing:2, color:global.logoColor}} > {'Listen to your mood'.toUpperCase()} </Text>
+                <View style={{paddingLeft:20}}>
+                    <Text style={{letterSpacing:2, color:global.logoColor, fontSize:15}} > {'Listen to your mood'.toUpperCase()} </Text>
                 </View>
             </View>
         </SafeAreaView>
@@ -114,7 +112,7 @@ const styles = StyleSheet.create({
     },
     line:{
         letterSpacing:4,
-        marginBottom:20
+        marginBottom:30
     },
     logoImg:{
         width: 200,
@@ -148,7 +146,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width:200,
         padding:15,
-        marginBottom:30,
+        marginBottom:25,
         borderRadius:10,
         shadowOffset:{  width: 10,  height: 10,  },
         shadowColor: 'grey',

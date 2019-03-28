@@ -93,7 +93,9 @@ export default class SignupScreen extends React.Component {
                     <Text style={{color:'black', fontWeight:'bold', fontSize:20}}> Have Account </Text>
                 </TouchableOpacity>
             </View>
-
+            <View style={{paddingLeft:20, marginTop:50}}>
+                <Text style={{letterSpacing:2, color:global.logoColor,fontSize:18}} > {'Listen to your mood'.toUpperCase()} </Text>
+            </View>
         </SafeAreaView>
     );
   }
