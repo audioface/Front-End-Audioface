@@ -26,22 +26,22 @@ const playlistNav = createStackNavigator({
 });
 
 const mainPage = createBottomTabNavigator({
-  Camera:{
-    screen: CameraScreeen,
-    navigationOptions:{
-      tabBarLabel: 'Camera',
-      tabBarIcon: ({tintColor}) =>(
-        <FontAwesomeIcon name="camera-retro" color={tintColor} size={30} style={{padding:10}}/>
-      ),
-      swipeEnabled: true
-    }
-  },
   Profile:{
     screen:ProfileScreen,
     navigationOptions:{
       tabBarLabel:  'Profile',
       tabBarIcon: ({tintColor}) =>(
         <FontAwesomeIcon name="user-circle" color={tintColor} size={30} style={{padding:10,}}/>
+      ),
+      swipeEnabled: true
+    }
+  },
+  Camera:{
+    screen: CameraScreeen,
+    navigationOptions:{
+      tabBarLabel: 'Camera',
+      tabBarIcon: ({tintColor}) =>(
+        <FontAwesomeIcon name="camera-retro" color={tintColor} size={30} style={{padding:10}}/>
       ),
       swipeEnabled: true
     }
@@ -57,6 +57,7 @@ const mainPage = createBottomTabNavigator({
     }
   }
 },{
+  initialRouteName:'Camera',
   tabBarOptions: {
     activeTintColor: global.themeColor,
     inactiveTintColor: 'grey',
@@ -68,7 +69,7 @@ const mainPage = createBottomTabNavigator({
       shadowOpacity: 0.5,
       elevation: 5
     }
-  }
+  },
 });
 
 const accountNav = createSwitchNavigator({
