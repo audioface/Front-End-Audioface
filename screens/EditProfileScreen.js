@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class EditProfile extends Component {
+export default class EditProfileScreen extends Component {
   constructor(props) {
     super(props);
 
@@ -36,20 +36,20 @@ export default class EditProfile extends Component {
     this.handbleDobChange = this.handbleDobChange.bind(this);
     this.handleDesChange = this.handleDesChange.bind(this);
   }
-  saveChanges() {
+  saveChanges = () => {
     // TO DO: Make ajax call to send back data changes
   }
 
-  handleNameChange(name) {
+  handleNameChange = (name) =>{
     this.setState({ name });
   }
-  handlePwChange(pw) {
+  handlePwChange = (pw) => {
     this.setState({ pw });
   }
-  handleDobChange(dob) {
+  handleDobChange = (dob) => {
     this.setState({ dob });
   }
-  handleDesChange(des) {
+  handleDesChange = (des) => {
     this.setState({ des });
   }
 

@@ -13,6 +13,8 @@ import ProfileScreen from './screens/ProfileScreen';
 import PlaylistScreen from './screens/PlaylistScreen';
 import LoadingScreen from './screens/LoadingScreen';
 import SongScreen from './screens/SongScreen';
+import EditProfileScreen from './screens/EditProfileScreen';
+import SavedProfileScreen from './screens/SavedProfileScreen';
 import apiKeys from './apiKeys';
 import * as firebase from 'firebase';
 
@@ -25,9 +27,18 @@ const playlistNav = createStackNavigator({
   }
 });
 
+const profileNav = createSwitchNavigator({
+  editProfile:{
+    screen:EditProfileScreen
+  },
+  savedProfile:{
+    screen:SavedProfileScreen
+  }
+});
+
 const mainPage = createBottomTabNavigator({
   Profile:{
-    screen:ProfileScreen,
+    screen:profileNav,
     navigationOptions:{
       tabBarLabel:  'Profile',
       tabBarIcon: ({tintColor}) =>(
