@@ -41,6 +41,9 @@ export default class LoginScreen extends React.Component {
                         useNativeDriver
                         onChangeText={(text) => this.setState({username:text})}
                         value={this.state.username}
+                        // TextInput props
+                        autoCapitalize={'none'}
+                        autoCorrect={false}
                     />
                 </View>
                 <View style={styles.inputSect}>
@@ -58,6 +61,10 @@ export default class LoginScreen extends React.Component {
                         useNativeDriver
                         onChangeText={(text) => this.setState({password:text})}
                         value={this.state.password}
+                        // TextInput props
+                        autoCapitalize={'none'}
+                        autoCorrect={false}
+                        secureTextEntry={true}
                     />
                 </View>
             </View>
