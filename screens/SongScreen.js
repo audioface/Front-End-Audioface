@@ -1,24 +1,17 @@
 import React, { Component } from 'react';
-import { FlatList, Button, StyleSheet, Text, View } from 'react-native';
+import { View, Text,StyleSheet, FlatList } from 'react-native';
 
-export default class Song extends Component {
-
-  constructor(props, context) {
-    super(props, context);
+export default class SongScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    };
   }
 
-  _handlePress() {
-    console.log('Pressed!');
-  }
   render() {
     return (
-      <View>
-        {/* <Button
-          style={{fontSize: 20, color: 'orange'}}
-          onPress={() => this._handlePress()}>
-          Back to Playlists
-        </Button> */}
-        <View style={styles.container}>
+      <View style={styles.container}>
+        <View>
           <FlatList
             data={[
               {key: 'Hi! by Jackson5'},
@@ -39,7 +32,9 @@ export default class Song extends Component {
 const styles = StyleSheet.create({
   container: {
    flex: 1,
-   paddingTop: 22
+   paddingTop: 22,
+   alignItems:'center',
+   justifyContent:'center'
   },
   item: {
     padding: 10,
