@@ -1,7 +1,8 @@
 //node modules
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Alert} from 'react-native';
-import { createSwitchNavigator,createBottomTabNavigator, createAppContainer} from 'react-navigation';
+import { createSwitchNavigator,createBottomTabNavigator, 
+  createAppContainer, createStackNavigator} from 'react-navigation';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 //import screeens
@@ -10,17 +11,27 @@ import SignupScreen from './screens/SignupScreen';
 import CameraScreeen from './screens/CameraScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import PlaylistScreen from './screens/PlaylistScreen';
+import LoadingScreen from './screens/LoadingScreen';
+import SongScreen from './screens/SongScreen';
 import apiKeys from './apiKeys';
 import * as firebase from 'firebase';
 
+const playlistNav = createStackNavigator({
+  allPlaylist:{
+    screen:PlaylistScreen
+  },
+  Song:{
+    screen:SongScreen
+  }
+});
 
 const mainPage = createBottomTabNavigator({
   Camera:{
     screen: CameraScreeen,
     navigationOptions:{
-      tabBarLabel:  <View/>,
+      tabBarLabel: 'Camera',
       tabBarIcon: ({tintColor}) =>(
-        <FontAwesomeIcon name="camera-retro" color={tintColor} size={30} style={{paddingTop:10}}/>
+        <FontAwesomeIcon name="camera-retro" color={tintColor} size={30} style={{padding:10}}/>
       ),
       swipeEnabled: true
     }
@@ -28,19 +39,19 @@ const mainPage = createBottomTabNavigator({
   Profile:{
     screen:ProfileScreen,
     navigationOptions:{
-      tabBarLabel:  <View/>,
+      tabBarLabel:  'Profile',
       tabBarIcon: ({tintColor}) =>(
-        <FontAwesomeIcon name="user-circle" color={tintColor} size={30} style={{paddingTop:10}}/>
+        <FontAwesomeIcon name="user-circle" color={tintColor} size={30} style={{padding:10,}}/>
       ),
       swipeEnabled: true
     }
   },
-  Playlist:{
-    screen:PlaylistScreen,
+  Playlists:{
+    screen: playlistNav,
     navigationOptions:{
-      tabBarLabel:  <View/>,
+      tabBarLabel:  'Playlist',
       tabBarIcon: ({tintColor}) =>(
-        <FontAwesomeIcon name="headphones" color={tintColor} size={33} style={{paddingTop:10}}/>
+        <FontAwesomeIcon name="headphones" color={tintColor} size={33} style={{padding:10,}}/>
       ),
       swipeEnabled: true
     }
@@ -70,10 +81,13 @@ const accountNav = createSwitchNavigator({
   Signup:{
     screen: SignupScreen
   },
-  // Home:{
-  //   screen: mainPage
-  // }
+  Loading:{
+    screen: LoadingScreen
+  }
+},{
+  initialRouteName:'Loading'
 });
+
 export default class AudioFace extends Component {
   constructor(props) {
     super(props);

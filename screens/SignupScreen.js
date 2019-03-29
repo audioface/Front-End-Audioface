@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, Image, TextInput, Button,TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, Image, TextInput, 
+    Button,TouchableOpacity, Alert } from 'react-native';
 import '../global';
 import Icon from 'react-native-vector-icons/Ionicons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { Sae, Kohana } from 'react-native-textinput-effects';
-
+import * as firebase from 'firebase';
 
 export default class SignupScreen extends React.Component {
   constructor(props) {
@@ -12,8 +13,25 @@ export default class SignupScreen extends React.Component {
     this.state = {
         username:'',
         password:'',
-        rePass:''
+        rePass:'',
+        errorMessage: null
     };
+  }
+  handleSignUp = () => {
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(this.state.username, this.state.password)
+      .then(() => this.props.navigation.navigate('Main'))
+      .catch(error => this.setState({ errorMessage: error.message }))
+  }
+
+  signUpAccount = () =>{
+      if(this.state.password != this.state.rePass){
+        this.setState({errorMessage:"Passwords do not match :("});
+      }
+      else{
+          this.handleSignUp();
+      }
   }
   
   render() {
@@ -42,6 +60,9 @@ export default class SignupScreen extends React.Component {
                         useNativeDriver
                         onChangeText={(text) => this.setState({username:text})}
                         value={this.state.username}
+                        // TextInput props
+                        autoCapitalize={'none'}
+                        autoCorrect={false}
                     />
                 </View>
                 <View style={styles.inputSect}>
@@ -59,6 +80,10 @@ export default class SignupScreen extends React.Component {
                         useNativeDriver
                         onChangeText={(text) => this.setState({password:text})}
                         value={this.state.password}
+                        // TextInput props
+                        autoCapitalize={'none'}
+                        autoCorrect={false}
+                        secureTextEntry={true}
                     />
                 </View>
                 <View style={styles.inputSect}>
@@ -76,12 +101,19 @@ export default class SignupScreen extends React.Component {
                         useNativeDriver
                         onChangeText={(text) => this.setState({rePass:text})}
                         value={this.state.rePass}
+                        // TextInput props
+                        autoCapitalize={'none'}
+                        autoCorrect={false}
+                        secureTextEntry={true}
                     />
+                </View>
+                <View>
+                    <Text style={styles.err}>{this.state.errorMessage}</Text>
                 </View>
             </View>
             <View>
                 <TouchableOpacity
-                    onPress={()=>{this.props.navigation.navigate('Signup')}}
+                    onPress={this.signUpAccount}
                     style={styles.loginBut}
                 >
                     <Text style={{color:'white', fontWeight:'bold', fontSize:20}}> Signup Now </Text>
@@ -155,6 +187,11 @@ const styles = StyleSheet.create({
         shadowColor: 'grey',
         shadowOpacity: 0.2,
         shadowRadius:2
+    },
+    err:{
+        marginTop:30,
+        fontSize:20,
+        color:'red'
     }
   });
   
