@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, SafeAreaView, StyleSheet,TouchableOpacity,
-        Dimensions, Image, Alert } from 'react-native';
+        Dimensions, Image, Alert, AsyncStorage } from 'react-native';
 import { Camera, Permissions, ImageManipulator } from 'expo';
 import Icon from 'react-native-vector-icons/Ionicons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
@@ -40,26 +40,69 @@ export default class CameraScreen extends Component {
         count:0,
         image: null,
         uploading: false,
+        userid:null
     };
   }
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === 'granted' });
   }
-
-  takePicture = () => {
+  
+  takePicture = async() => {
     if (this.camera) {
+      previousState => (
+        { count: previousState.count +1  }
+      )
       this.camera.takePictureAsync({ onPictureSaved: this.onPictureSaved, quality: 0.5 });
     }
   };
+  sendPhoto = async() =>{
+    //retrive data from the async storage
+    var value = null;
+    try {
+      value = await AsyncStorage.getItem('userid');
+      if (value !== null) {
+        // We have data!!
+        this.setState({userid: value})
+        // console.log("hello: "+value);
+      }
+    } catch (error) {
+      // Error retrieving data
+      console.log(error);
+    }
+    var form = new FormData();
+    form.append('counter', this.state.count);
+    form.append('userid', this.state.userid);
+    form.append('photo', {
+      uri: this.state.cameraUri,
+      type:"image/jpeg"
+    });
+    fetch("http://192.168.70.208:8080/CSCI201_AudioFace/HandleImage", {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'multipart/form-data'
+        },
+        method: 'POST',
+        body: form,
+    })
+    .then(function(response){ 
+      console.log 
+    })
+    .catch(error=>{
+      console.log(error)
+    });
 
+  }
+
+  
   onPictureSaved = async photo => {
       try {
         this.setState({ uploading: true });
         const manipResult = await ImageManipulator.manipulateAsync(photo.uri, 
           [{flip: {horizontal: true}}], 
           { format: 'jpeg' });
-        
+        this.setState({cameraUri: manipResult.uri});
+        this.sendPhoto();
         uploadUrl = await this.uploadImageAsync(manipResult.uri);
         this.setState({ CameraUrl: uploadUrl });
         alert('Uploading Photo and Analyzing');
@@ -70,7 +113,6 @@ export default class CameraScreen extends Component {
       } finally {
         this.setState({ uploading: false });
       }
-  
   }
   uploadImageAsync = async uri => {
     // Why are we using XMLHttpRequest? See:
@@ -124,8 +166,8 @@ export default class CameraScreen extends Component {
                   <View style={styles.center}>
                       <FontAwesomeIcon 
                             name="circle" 
-                            style={{position:"absolute", height:100,
-                                    width:100,color:'black', marginBottom:20}}
+                            style={{position:"absolute", height:150,
+                                    width:150,color:'black', marginBottom:200}}
                             size={30}
                             onPress={this.takePicture}>
                         </FontAwesomeIcon>
@@ -136,7 +178,7 @@ export default class CameraScreen extends Component {
                                 top:0}}
                                 source={{uri: this.state.cameraUri}} >
                         </Image>
-                        <Text style={{color:'white'}}>{this.state.cameraUri}</Text>
+                        {/* <Text style={{color:'white'}}>{this.state.cameraUri}</Text> */}
                   </View>
               </View>
             </View>
