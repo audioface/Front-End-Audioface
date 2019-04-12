@@ -11,8 +11,27 @@ export default class LoginScreen extends React.Component {
     super(props);
     this.state = {
         username:'',
-        password:''
+        password:'',
+        errorMessage: null
     };
+  }
+  handleLogin = () => {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(this.state.username, this.state.password)
+      .then(function(){
+        this.props.navigation.navigate('Main')
+      })
+      .catch(error => this.setState({ errorMessage: error.message }))
+  }
+
+  loginAccount = () =>{
+    if(this.state.password.length < 6){
+        this.setState({errorMessage:"Password has to be at least 6 chars"});
+      }
+      else{
+          this.handleLogin();
+      }
   }
   
   render() {
@@ -25,7 +44,7 @@ export default class LoginScreen extends React.Component {
             <View>
                 <Text style={styles.line} > {'Welcome'.toUpperCase()} </Text>
             </View>
-            <View style={{marginBottom:150}}>
+            <View style={{marginBottom:80}}>
                 <View style={styles.inputSect}>
                      <Kohana
                         style={styles.input}
@@ -67,10 +86,13 @@ export default class LoginScreen extends React.Component {
                         secureTextEntry={true}
                     />
                 </View>
+                <View>
+                    <Text style={styles.err}>{this.state.errorMessage}</Text>
+                </View>
             </View>
             <View style={styles.buttonSect}>
                 <TouchableOpacity
-                    onPress={()=>{this.props.navigation.navigate('Signup')}}
+                    onPress={this.loginAccount}
                     style={styles.loginBut}
                 >
                     <Text style={{color:'white', fontWeight:'bold', fontSize:20}}> Login Now </Text>

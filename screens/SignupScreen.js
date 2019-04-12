@@ -21,7 +21,9 @@ export default class SignupScreen extends React.Component {
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.username, this.state.password)
-      .then(() => this.props.navigation.navigate('Main'))
+      .then(function(){
+        this.props.navigation.navigate('Main')
+      })
       .catch(error => this.setState({ errorMessage: error.message }))
   }
 
@@ -44,7 +46,7 @@ export default class SignupScreen extends React.Component {
             <View>
                 <Text style={styles.line} > {'Welcome'.toUpperCase()} </Text>
             </View>
-            <View style={{marginBottom:100}}>
+            <View style={{marginBottom:20}}>
                 <View style={styles.inputSect}>
                      <Kohana
                         style={styles.input}
@@ -125,7 +127,7 @@ export default class SignupScreen extends React.Component {
                     <Text style={{color:'black', fontWeight:'bold', fontSize:20}}> Have Account </Text>
                 </TouchableOpacity>
             </View>
-            <View style={{paddingLeft:20, marginTop:50}}>
+            <View style={{paddingLeft:20, marginTop:10}}>
                 <Text style={{letterSpacing:2, color:global.logoColor,fontSize:18}} > {'Listen to your mood'.toUpperCase()} </Text>
             </View>
         </SafeAreaView>
