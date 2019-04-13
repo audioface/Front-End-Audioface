@@ -4,7 +4,7 @@ import '../global';
 import Icon from 'react-native-vector-icons/Ionicons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { Sae, Kohana } from 'react-native-textinput-effects';
-
+import * as firebase from 'firebase';
 
 export default class LoginScreen extends React.Component {
   constructor(props) {

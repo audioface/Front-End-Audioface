@@ -15,6 +15,7 @@ import LoadingScreen from './screens/LoadingScreen';
 import SongScreen from './screens/SongScreen';
 import EditProfileScreen from './screens/EditProfileScreen';
 import SavedProfileScreen from './screens/SavedProfileScreen';
+import SpotifyScreen from './screens/SpotifyScreen';
 import apiKeys from './apiKeys';
 import * as firebase from 'firebase';
 
@@ -84,6 +85,9 @@ const mainPage = createBottomTabNavigator({
 });
 
 const accountNav = createSwitchNavigator({
+  Spotify:{
+    screen: SpotifyScreen
+  },
   Home:{
     screen: mainPage
   },
