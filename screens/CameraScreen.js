@@ -77,7 +77,7 @@ export default class CameraScreen extends Component {
       uri: this.state.cameraUri,
       type:"image/jpeg"
     });
-    fetch("http://192.168.70.208:8080/CSCI201_AudioFace/HandleImage", {
+    fetch("http://10.26.14.188:8080/CSCI201_AudioFace/HandleImage", {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'multipart/form-data'
@@ -166,9 +166,7 @@ export default class CameraScreen extends Component {
                   <View style={styles.center}>
                       <FontAwesomeIcon 
                             name="circle" 
-                            style={{position:"absolute", height:150,
-                                    width:150,color:'black', marginBottom:200}}
-                            size={30}
+                            style={styles.takeButton}
                             onPress={this.takePicture}>
                         </FontAwesomeIcon>
                         <Image style = {{position:"absolute",
@@ -199,5 +197,14 @@ const styles = StyleSheet.create({
         marginTop:10,
         position: "absolute",
         bottom:20
+    },
+    takeButton:{
+      position:"absolute", 
+      height:200,
+      width:110,
+      color:global.logoColor, 
+      marginBottom:200,
+      marginLeft: 320,
+      fontSize:100
     }
 });
