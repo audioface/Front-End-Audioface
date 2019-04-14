@@ -40,7 +40,9 @@ export default class CameraScreen extends Component {
         count:0,
         image: null,
         uploading: false,
-        userid:null
+        userid:null,
+        accessToken:null,
+        refreshToken:null
     };
   }
   async componentWillMount() {
@@ -61,9 +63,13 @@ export default class CameraScreen extends Component {
     var value = null;
     try {
       value = await AsyncStorage.getItem('userid');
-      if (value !== null) {
+      accessToken = await AsyncStorage.getItem('accessToken');
+      refreshToken = await AsyncStorage.getItem('refreshToken');
+      if (value !== null && accessToken !== null && refreshToken != null) {
         // We have data!!
         this.setState({userid: value})
+        this.setState({accessToken: accessToken})
+        this.setState({refreshToken: refreshToken})
         // console.log("hello: "+value);
       }
     } catch (error) {
@@ -73,11 +79,13 @@ export default class CameraScreen extends Component {
     var form = new FormData();
     form.append('counter', this.state.count);
     form.append('userid', this.state.userid);
+    form.append('accessToken', this.state.accessToken);
+    form.append('refreshToken', this.state.refreshToken);
     form.append('photo', {
       uri: this.state.cameraUri,
       type:"image/jpeg"
     });
-    fetch("http://10.26.14.188:8080/CSCI201_AudioFace/HandleImage", {
+    fetch("http://10.26.241.50:8080/SpotifyAPI_FinalProject/HandleImage", {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'multipart/form-data'

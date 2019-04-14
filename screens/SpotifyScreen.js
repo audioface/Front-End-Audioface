@@ -1,31 +1,36 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, AsyncStorage } from 'react-native';
 import axios from 'axios';
 import { AuthSession } from 'expo';
 import { encode as btoa } from 'base-64';
 // import { spotifyCredentials } from 'secrets';
 
 
-// export var spotifyCredentials = {
-//     clientId: 'eede42efdf8b4ff4b6117fdb8e888ec9',
-//     clientSecret: 'c05f2627222e472f8c09e5abb58f0c47',
-//     redirectUri: 'http://audioface/hello'
-// }
-
 export default class SpotifyScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            accessTokenAvailable:false,
+            expirationTime:null
         };
        
     }
     
+      getUserData = async(name) =>{
+        value = await AsyncStorage.getItem('name');
+        return value;
+      }
     getTokens = async () => {
         var spotifyCredentials = {
             clientId: 'eede42efdf8b4ff4b6117fdb8e888ec9',
             clientSecret: 'c05f2627222e472f8c09e5abb58f0c47',
-            redirectUri: 'localhost:19002/'
+            redirectUri: AuthSession.getRedirectUrl()
         }
+        var scopesArr = ['user-modify-playback-state','user-read-currently-playing','user-read-playback-state','user-library-modify',
+                            'user-library-read','playlist-read-private','playlist-read-collaborative','playlist-modify-public',
+                            'playlist-modify-private','user-read-recently-played','user-top-read','ugc-image-upload','user-read-private',
+                            'user-read-email', 'user-follow-read', 'user-follow-modify'];
+        var scopes = scopesArr.join(' ');
         getAuthorizationCode = async () => {
             let result = null;
             try {
@@ -44,13 +49,9 @@ export default class SpotifyScreen extends Component {
             } catch (err) {
                 console.error(err)
             }
-            console.log(result.params.code)
+            // console.log(result.params.code)
             return result.params.code
         }
-        var scopesArr = ['user-modify-playback-state','user-read-currently-playing','user-read-playback-state','user-library-modify',
-                            'user-library-read','playlist-read-private','playlist-read-collaborative','playlist-modify-public',
-                            'playlist-modify-private','user-read-recently-played','user-top-read'];
-        var scopes = scopesArr.join(' ');
         try {
             const authorizationCode = await getAuthorizationCode() //we wrote this function above
             const credentials = spotifyCredentials; //we wrote this function above (could also run this outside of the functions and store the credentials in local scope)
@@ -76,9 +77,14 @@ export default class SpotifyScreen extends Component {
             console.log('accessToken' + accessToken);
             console.log('refreshToken' + refreshToken);
             console.log('expirationTime', expirationTime);
-            await setUserData('accessToken', accessToken);
-            await setUserData('refreshToken', refreshToken);
-            await setUserData('expirationTime', expirationTime);
+            try {
+             await AsyncStorage.setItem('accessToken', accessToken);
+             await AsyncStorage.setItem('refreshToken', refreshToken);
+             this.setState({expirationTime:expirationTime})
+            } catch (error) {
+            // Error saving data
+            }
+            this.props.navigation.navigate('Home')
         } catch (err) {
             console.error(err);
         }
@@ -107,11 +113,11 @@ export default class SpotifyScreen extends Component {
                 } = responseJson;
         
                 const expirationTime = new Date().getTime() + expiresIn * 1000;
-                await setUserData('accessToken', newAccessToken);
+                await AsyncStorage.setItem('accessToken', newAccessToken);
                 if (newRefreshToken) {
-                await setUserData('refreshToken', newRefreshToken);
+                    await AsyncStorage.setItem('refreshToken', newRefreshToken);
                 }
-                await setUserData('expirationTime', expirationTime);
+                this.setState({expirationTime:expirationTime})
             } 
         }catch (err) {
             console.error(err)
@@ -120,12 +126,15 @@ export default class SpotifyScreen extends Component {
     }
 
     async componentDidMount() {
-        const tokenExpirationTime = await getUserData('expirationTime');
+        const tokenExpirationTime = this.state.expirationTime;
         if (!tokenExpirationTime || new Date().getTime() > tokenExpirationTime) {
         await refreshTokens();
         } else {
         this.setState({ accessTokenAvailable: true });
         }
+        // if(this.state.accessTokenAvailable == true){
+        //     this.props.navigation.navigate('Home')
+        // }
     }
   
 
