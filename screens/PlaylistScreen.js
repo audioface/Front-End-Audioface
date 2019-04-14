@@ -1,128 +1,127 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Image, StyleSheet, Dimensions, 
-    Text, FlatList, TouchableHighlight } from 'react-native';
-import { Constants } from 'expo';
-
-const { width } = Dimensions.get('window');
-const height = width * 0.8
-
+import { View, ScrollView, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 export default class Carousel extends Component {
-  
-  render() {
-    const images = [
-      {
-        source: {
-          uri: 'https://cdn.pixabay.com/photo/2017/05/19/07/34/teacup-2325722__340.jpg',
-        },
-        
-      },
-      {
-        source: {
-          uri: 'https://cdn.pixabay.com/photo/2017/05/02/22/43/mushroom-2279558__340.jpg',
-        },
-      },
-      {
-        source: {
-          uri: 'https://cdn.pixabay.com/photo/2017/05/18/21/54/tower-bridge-2324875__340.jpg',
-        },
-      },
-      {
-        source: {
-          uri: 'https://cdn.pixabay.com/photo/2017/05/16/21/24/gorilla-2318998__340.jpg',
-        },
-      },
-      
-    ];
-    // const { images } = this.props;
-    if (images && images.length) {
-      return (
-        <View style={styles.scrollContainer}>
-          <ScrollView
-            horizontal
-            pagingEnabled
-            showsHorizontalScrollIndicator={true}>
-            {images.map(image => (
-              <TouchableHighlight onPress={()=>{this.props.navigation.navigate('Song')}}>
-                {/* <Image
-                  style={styles.button}
-                  source={require('./myButton.png')}
-                /> */}
-                <Image style={styles.image} source={image.source} />
-              </TouchableHighlight>
-            ))}
-          </ScrollView>
-          <Text>Playlist Name!</Text>
-          <FlatList
-            data={[
-              {key: 'Hi! by Jackson5'},
-              {key: 'Youre Dead! by Flying Lotus'},
-              {key: 'Hello by Adelle'},
-              {key: 'Kiss of Life by Sade'},
-              {key: 'Casio by Jungle'},
-              {key: 'Computer Love by Roger and Zapp'},
-            ]}
-            renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
-          />
-        </View>
-      );
+  constructor(props) {
+    super(props);
+    this.state = {
+    };
+    // getPlaylist = () =>{
+    //   fetch('http://10.26.220.212:8080/SpotifyAPI_FinalProject/SendDataServlet',{
+    //     method: "GET",
+    //     headers: {
+    //       "Accept": "application/json"
+    //     }
+    //   })
+    //   .then(response => {
+    //     response.json().then(json => {
+    //       console.log(json);
+    //     });
+    //   })
+    //   .catch(error=>{
+    //     console.log(error)
+    //   });
+    
+    // }
+    // this.getPlaylist;
+    getPlaylist = async() =>{
+      var value = await AsyncStorage.getItem('playlist');
+      console.log("in playlist: ");
+      // var json = JSON.parse(value);
+      console.log(value);
     }
-    console.log('Please provide images');
-    return null;    
+    this.getPlaylist;
+  }
+  
+  componentDidMount() {
+    getPlaylist = async() =>{
+      console.log("in playlist: ");
+      var value = await AsyncStorage.getItem('playlist');
+      // var json = JSON.parse(value);
+      console.log(value);
+    }
+    this.getPlaylist;
+  }
+    render(){
+        return(
+          <View style={{flex: 2, backgroundColor: '#FDFAF3'}}>
+            <ScrollView>
+                <View style={{alignItems: 'center'}}>
+                  
+                  <Text style={{marginTop: 40, fontSize: 35, color: global.logoColor}}>My Playlists</Text>
+                </View>
+                <View style={{flex: 1, flexDirection:'column', alignItems: 'stretch', marginTop: 10}}>
+                    <PlaylistData emotion='Happy'/>
+                    <PlaylistData emotion='Sad'/>
+                    <PlaylistData emotion='Excited'/>
+                </View>
+            </ScrollView>
+          </View>
+        );
+    }
+  }
+class Song extends Component{
+    render(){
+        return (
+            <View style={{alignItems: 'center', margin:10}}>
+              <Text style={{fontSize: 20}}>{this.props.song} by {this.props.artist}</Text>
+            </View>
+        );
+    }
+}
+class SongData extends Component{
+    render(){
+        return(
+            <View style={{alignItems:'center'}}>
+                <Song song='Hello' artist='Adele'/>
+                <Song song='Hello' artist='Adele'/>
+                <Song song='Hello' artist='Adele'/>
+            </View>
+        );
+    }
+}
+class PlaylistData extends Component{
+
+  render(){
+    let pic = {
+      uri: 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Adele_2016.jpg'
+    };
+    //onPress = () => {
+      //navigate to correct playlist page
+    //}
+    return(
+        <View style={styles.box}>
+            <TouchableOpacity onPress={this._onPressButton}>
+              <Image source={pic} style={{height:200, width:200}}/>
+            </TouchableOpacity>
+            <Text style={styles.title}>{this.props.emotion}</Text>
+            <SongData/>
+        </View>
+    );
   }
 }
-
-// export default class App extends Component {
-//   render() {
-//     const images = [
-//       {
-//         source: {
-//           uri: 'https://cdn.pixabay.com/photo/2017/05/19/07/34/teacup-2325722__340.jpg',
-//         },
-        
-//       },
-//       {
-//         source: {
-//           uri: 'https://cdn.pixabay.com/photo/2017/05/02/22/43/mushroom-2279558__340.jpg',
-//         },
-//       },
-//       {
-//         source: {
-//           uri: 'https://cdn.pixabay.com/photo/2017/05/18/21/54/tower-bridge-2324875__340.jpg',
-//         },
-//       },
-//       {
-//         source: {
-//           uri: 'https://cdn.pixabay.com/photo/2017/05/16/21/24/gorilla-2318998__340.jpg',
-//         },
-//       },
-      
-//     ];
-
-//     return (
-//       <View style={styles.container}>
-//         <Carousel images={images} />
-//       </View>
-//     );
-//   }
-// }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
   },
-  scrollContainer: {
-    height,
+  title:{
+    fontSize: 25, 
+    flex:1,
+    alignItems:'center', 
+    justifyContent:'center',
+    marginTop:5
   },
-  image: {
-    width,
-    height,
-  },
-  item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
-  },
+  box:{
+    flex: 1, 
+    flexDirection:'column', 
+    marginTop:20,
+    alignItems: 'center', 
+    padding: 20, 
+    borderRadius: 20, 
+    backgroundColor:'#FFE2DC',
+  }
+
 });

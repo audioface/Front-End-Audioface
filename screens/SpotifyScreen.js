@@ -142,10 +142,10 @@ export default class SpotifyScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text> SpotifyScreen </Text>
+        <Text> Get Spotify Authorization To Continue </Text>
         <Button
             onPress={this.getTokens}
-            title="Learn More"
+            title="Get It"
             color="#841584"
             accessibilityLabel="Learn more about this purple button"
         />
