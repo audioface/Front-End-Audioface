@@ -42,7 +42,9 @@ export default class CameraScreen extends Component {
         uploading: false,
         userid:null,
         accessToken:null,
-        refreshToken:null
+        refreshToken:null,
+        email:null,
+        response:null
     };
   }
   async componentWillMount() {
@@ -52,9 +54,9 @@ export default class CameraScreen extends Component {
   
   takePicture = async() => {
     if (this.camera) {
-      previousState => (
-        { count: previousState.count +1  }
-      )
+      var oldCounter = this.state.count;
+      oldCounter += 1;
+      this.setState({count: oldCounter})
       this.camera.takePictureAsync({ onPictureSaved: this.onPictureSaved, quality: 0.5 });
     }
   };
@@ -65,11 +67,13 @@ export default class CameraScreen extends Component {
       value = await AsyncStorage.getItem('userid');
       accessToken = await AsyncStorage.getItem('accessToken');
       refreshToken = await AsyncStorage.getItem('refreshToken');
+      email = await AsyncStorage.getItem('email');
       if (value !== null && accessToken !== null && refreshToken != null) {
         // We have data!!
         this.setState({userid: value})
         this.setState({accessToken: accessToken})
         this.setState({refreshToken: refreshToken})
+        this.setState({email: email})
         // console.log("hello: "+value);
       }
     } catch (error) {
@@ -81,11 +85,23 @@ export default class CameraScreen extends Component {
     form.append('userid', this.state.userid);
     form.append('accessToken', this.state.accessToken);
     form.append('refreshToken', this.state.refreshToken);
+    form.append('email', this.state.email);
     form.append('photo', {
       uri: this.state.cameraUri,
       type:"image/jpeg"
     });
-    fetch("http://10.26.241.50:8080/SpotifyAPI_FinalProject/HandleImage", {
+    var mString = "";
+    store = async(mString) =>{
+  
+      try{
+        console.log("storage called")
+        await AsyncStorage.setItem('playlist', mString);
+      }
+      catch(error){
+        console.log(error);
+      }
+    }
+    fetch("http://10.26.220.212:8080/SpotifyAPI_FinalProject/HandleImage", {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'multipart/form-data'
@@ -94,13 +110,16 @@ export default class CameraScreen extends Component {
         body: form,
     })
     .then(function(response){ 
-      console.log 
+      console.log(response)
+      // mString = JSON.stringify(response);
+      // console.log("mstring: " + mString)
+      store(mString)
     })
     .catch(error=>{
       console.log(error)
     });
-
   }
+
 
   
   onPictureSaved = async photo => {
@@ -110,10 +129,13 @@ export default class CameraScreen extends Component {
           [{flip: {horizontal: true}}], 
           { format: 'jpeg' });
         this.setState({cameraUri: manipResult.uri});
-        this.sendPhoto();
-        uploadUrl = await this.uploadImageAsync(manipResult.uri);
-        this.setState({ CameraUrl: uploadUrl });
+        await this.sendPhoto();
+        // uploadUrl = await this.uploadImageAsync(manipResult.uri);
+        // this.setState({ CameraUrl: uploadUrl });
         alert('Uploading Photo and Analyzing');
+        setTimeout(() => {
+          this.props.navigation.navigate('Playlists');
+        }, 10000);
         
       } catch (e) {
         console.log(e);

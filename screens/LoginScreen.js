@@ -20,7 +20,7 @@ export default class LoginScreen extends React.Component {
       .auth()
       .signInWithEmailAndPassword(this.state.username, this.state.password)
       .then(function(){
-        this.props.navigation.navigate('Main')
+        this.props.navigation.navigate('Spotify')
       })
       .catch(error => this.setState({ errorMessage: error.message }))
   }

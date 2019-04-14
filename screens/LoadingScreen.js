@@ -53,9 +53,9 @@ export default class LoadingScreen extends React.Component {
     //   console.log("get logging in");
     // });
     //store userid in async storage
-    _storeData = async (userid) => {
+    _storeData = async (key, value) => {
       try {
-        await AsyncStorage.setItem('userid', userid);
+        await AsyncStorage.setItem(key, value);
       } catch (error) {
         // Error saving data
       }
@@ -64,9 +64,12 @@ export default class LoadingScreen extends React.Component {
     firebase.auth().onAuthStateChanged(user => {
         if(user != null){
           var userId = user.uid;
+          var email = user.email;
           console.log("user id: " + userId);
+          console.log("user email: " + email);
           //store the user info into session and back to the servlet
-          _storeData(userId);
+          _storeData('userid',userId);
+          _storeData('email',email);
         }
         this.props.navigation.navigate(user ? 'Spotify' : 'Login')
     })

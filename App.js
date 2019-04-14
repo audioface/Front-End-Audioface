@@ -90,6 +90,7 @@ const accountNav = createSwitchNavigator({
   },
   Home:{
     screen: mainPage
+    // screen:playlistNav
   },
   Login:{
     screen: LoginScreen
