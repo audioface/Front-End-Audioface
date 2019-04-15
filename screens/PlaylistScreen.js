@@ -1,64 +1,52 @@
 import React, { Component } from 'react';
 import { View, ScrollView, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-export default class Carousel extends Component {
+export default class PlaylistScreen extends Component {
+  state = {
+
+  }
+
   constructor(props) {
     super(props);
-    this.state = {
-    };
-    // getPlaylist = () =>{
-    //   fetch('http://10.26.220.212:8080/SpotifyAPI_FinalProject/SendDataServlet',{
-    //     method: "GET",
-    //     headers: {
-    //       "Accept": "application/json"
-    //     }
-    //   })
-    //   .then(response => {
-    //     response.json().then(json => {
-    //       console.log(json);
-    //     });
-    //   })
-    //   .catch(error=>{
-    //     console.log(error)
-    //   });
-    
-    // }
-    // this.getPlaylist;
-    getPlaylist = async() =>{
-      var value = await AsyncStorage.getItem('playlist');
-      console.log("in playlist: ");
-      // var json = JSON.parse(value);
-      console.log(value);
-    }
-    this.getPlaylist;
+    // console.log("constructor")
+    // console.log(props) 
   }
   
   componentDidMount() {
-    getPlaylist = async() =>{
-      console.log("in playlist: ");
-      var value = await AsyncStorage.getItem('playlist');
-      // var json = JSON.parse(value);
-      console.log(value);
-    }
     this.getPlaylist;
   }
-    render(){
-        return(
-          <View style={{flex: 2, backgroundColor: '#FDFAF3'}}>
-            <ScrollView>
-                <View style={{alignItems: 'center'}}>
-                  
-                  <Text style={{marginTop: 40, fontSize: 35, color: global.logoColor}}>My Playlists</Text>
-                </View>
-                <View style={{flex: 1, flexDirection:'column', alignItems: 'stretch', marginTop: 10}}>
-                    <PlaylistData emotion='Happy'/>
-                    <PlaylistData emotion='Sad'/>
-                    <PlaylistData emotion='Excited'/>
-                </View>
-            </ScrollView>
-          </View>
-        );
-    }
+
+  getPlaylist = async() =>{
+    console.log("in playlist: ");
+    var value = await AsyncStorage.getItem('playlist');
+    // var json = JSON.parse(value);
+    console.log(value);
   }
+
+  render(){
+    /* 2. Get the param, provide a fallback value if not available */
+    console.log("playlist: ");
+    const { navigation, screenProps} = this.props;
+    // console.log(screenProps)
+    const playList = screenProps['playlist'] || 'NO-ID';
+    console.log(playList + " in playlist");
+      return(
+        <View style={{flex: 2, backgroundColor: '#FDFAF3'}}>
+          <ScrollView>
+              <View style={{alignItems: 'center'}}>
+                
+                <Text style={{marginTop: 40, fontSize: 35, color: global.logoColor}}>My Playlists</Text>
+              </View>
+              <View style={{flex: 1, flexDirection:'column', alignItems: 'stretch', marginTop: 10}}>
+                  <PlaylistData emotion='Happy'/>
+                  <PlaylistData emotion='Sad'/>
+                  <PlaylistData emotion='Excited'/>
+              </View>
+          </ScrollView>
+        </View>
+      );
+  }
+}
+
 class Song extends Component{
     render(){
         return (
