@@ -19,7 +19,7 @@ import SpotifyScreen from './screens/SpotifyScreen';
 import apiKeys from './apiKeys';
 import * as firebase from 'firebase';
 
-const playlistNav = createStackNavigator({
+const PlaylistNav = createStackNavigator({
   allPlaylist:{
     screen:PlaylistScreen
   },
@@ -27,6 +27,16 @@ const playlistNav = createStackNavigator({
     screen:SongScreen
   }
 });
+
+class PlaylistScreenWrapper extends Component {
+  static router = PlaylistNav.router;
+
+  render(){
+    return <PlaylistNav navigation = {this.props.navigation}
+      screenProps={this.props.navigation.state.params} 
+    />;
+  }
+}
 
 const profileNav = createSwitchNavigator({
   editProfile:{
@@ -59,7 +69,7 @@ const mainPage = createBottomTabNavigator({
     }
   },
   Playlists:{
-    screen: playlistNav,
+    screen: PlaylistScreenWrapper,
     navigationOptions:{
       tabBarLabel:  'Playlist',
       tabBarIcon: ({tintColor}) =>(
@@ -90,7 +100,7 @@ const accountNav = createSwitchNavigator({
   },
   Home:{
     screen: mainPage
-    // screen:playlistNav
+    // screen:PlaylistNav
   },
   Login:{
     screen: LoginScreen

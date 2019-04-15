@@ -44,7 +44,7 @@ export default class CameraScreen extends Component {
         accessToken:null,
         refreshToken:null,
         email:null,
-        response:null
+        playlist:null
     };
   }
   async componentWillMount() {
@@ -101,7 +101,7 @@ export default class CameraScreen extends Component {
         console.log(error);
       }
     }
-    fetch("http://10.26.220.212:8080/SpotifyAPI_FinalProject/HandleImage", {
+    fetch("http://192.168.70.208:8080/CSCI201_AudioFace/HandleImage", {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'multipart/form-data'
@@ -109,16 +109,21 @@ export default class CameraScreen extends Component {
         method: 'POST',
         body: form,
     })
-    .then(function(response){ 
-      console.log(response)
-      // mString = JSON.stringify(response);
-      // console.log("mstring: " + mString)
-      store(mString)
+    .then((response)=>{ 
+      // console.log(response)
+      mString = response._bodyText;
+      alert('Uploading Photo and Analyzing');
+      console.log("in my string: " + mString);
+      this.props.navigation.setParams({'playlist': mString});
+      this.props.navigation.navigate('Playlists', {
+        playlist: mString
+      });
     })
     .catch(error=>{
       console.log(error)
     });
   }
+
 
 
   
@@ -129,13 +134,10 @@ export default class CameraScreen extends Component {
           [{flip: {horizontal: true}}], 
           { format: 'jpeg' });
         this.setState({cameraUri: manipResult.uri});
-        await this.sendPhoto();
+        this.sendPhoto();
         // uploadUrl = await this.uploadImageAsync(manipResult.uri);
         // this.setState({ CameraUrl: uploadUrl });
         alert('Uploading Photo and Analyzing');
-        setTimeout(() => {
-          this.props.navigation.navigate('Playlists');
-        }, 10000);
         
       } catch (e) {
         console.log(e);
