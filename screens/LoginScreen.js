@@ -33,6 +33,10 @@ export default class LoginScreen extends React.Component {
           this.handleLogin();
       }
   }
+
+  loginGuest = () =>{
+    firebase.auth().signInAnonymously();
+  }
   
   render() {
     return (
@@ -105,7 +109,7 @@ export default class LoginScreen extends React.Component {
                 </TouchableOpacity>
                 <View>
                     <TouchableOpacity
-                            onPress={()=>{this.props.navigation.navigate('Signup')}}
+                            onPress={this.loginGuest}
                             style={styles.line}
                         >
                             <Text style={{
