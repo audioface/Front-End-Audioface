@@ -44,7 +44,8 @@ export default class CameraScreen extends Component {
         accessToken:null,
         refreshToken:null,
         email:null,
-        playlist:null
+        playlist:null,
+        isGuest: null
     };
   }
   async componentWillMount() {
@@ -67,6 +68,7 @@ export default class CameraScreen extends Component {
       value = await AsyncStorage.getItem('userid');
       accessToken = await AsyncStorage.getItem('accessToken');
       refreshToken = await AsyncStorage.getItem('refreshToken');
+      guest = await AsyncStorage.getItem('guest');
       email = await AsyncStorage.getItem('email');
       if (value !== null && accessToken !== null && refreshToken != null) {
         // We have data!!
@@ -74,6 +76,7 @@ export default class CameraScreen extends Component {
         this.setState({accessToken: accessToken})
         this.setState({refreshToken: refreshToken})
         this.setState({email: email})
+        this.setState({isGuest: guest})
         // console.log("hello: "+value);
       }
     } catch (error) {
@@ -86,6 +89,7 @@ export default class CameraScreen extends Component {
     form.append('accessToken', this.state.accessToken);
     form.append('refreshToken', this.state.refreshToken);
     form.append('email', this.state.email);
+    form.append('isGuest', this.state.isGuest);
     form.append('photo', {
       uri: this.state.cameraUri,
       type:"image/jpeg"
@@ -101,7 +105,7 @@ export default class CameraScreen extends Component {
         console.log(error);
       }
     }
-    fetch("http://192.168.70.208:8080/CSCI201_AudioFace/HandleImage", {
+    fetch("http://10.26.183.223:8080/SpotifyAPI_FinalProject/HandleImage", {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'multipart/form-data'
@@ -146,34 +150,34 @@ export default class CameraScreen extends Component {
         this.setState({ uploading: false });
       }
   }
-  uploadImageAsync = async uri => {
-    // Why are we using XMLHttpRequest? See:
-    // https://github.com/expo/expo/issues/2402#issuecomment-443726662
-    const blob = await new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = function() {
-        resolve(xhr.response);
-      };
-      xhr.onerror = function(e) {
-        console.log(e);
-        reject(new TypeError('Network request failed'));
-      };
-      xhr.responseType = 'blob';
-      xhr.open('GET', uri, true);
-      xhr.send(null);
-    });
+  // uploadImageAsync = async uri => {
+  //   // Why are we using XMLHttpRequest? See:
+  //   // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+  //   const blob = await new Promise((resolve, reject) => {
+  //     const xhr = new XMLHttpRequest();
+  //     xhr.onload = function() {
+  //       resolve(xhr.response);
+  //     };
+  //     xhr.onerror = function(e) {
+  //       console.log(e);
+  //       reject(new TypeError('Network request failed'));
+  //     };
+  //     xhr.responseType = 'blob';
+  //     xhr.open('GET', uri, true);
+  //     xhr.send(null);
+  //   });
   
-    const ref = firebase
-      .storage()
-      .ref()
-      .child(uuid.v4());
-    const snapshot = await ref.put(blob);
+  //   const ref = firebase
+  //     .storage()
+  //     .ref()
+  //     .child(uuid.v4());
+  //   const snapshot = await ref.put(blob);
   
-    // We're done with the blob, close and release it
-    blob.close();
+  //   // We're done with the blob, close and release it
+  //   blob.close();
   
-    return await snapshot.ref.getDownloadURL();
-  }
+  //   return await snapshot.ref.getDownloadURL();
+  // }
   
   render() {
     const { hasCameraPermission } = this.state;
@@ -201,13 +205,13 @@ export default class CameraScreen extends Component {
                             style={styles.takeButton}
                             onPress={this.takePicture}>
                         </FontAwesomeIcon>
-                        <Image style = {{position:"absolute",
+                        {/* <Image style = {{position:"absolute",
                                 height:100,
                                 width:100,
                                 left:0,
                                 top:0}}
                                 source={{uri: this.state.cameraUri}} >
-                        </Image>
+                        </Image> */}
                         {/* <Text style={{color:'white'}}>{this.state.cameraUri}</Text> */}
                   </View>
               </View>

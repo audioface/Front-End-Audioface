@@ -4,54 +4,9 @@ import * as firebase from 'firebase';
 import {AsyncStorage} from 'react-native';
 import { Permissions, Notifications } from 'expo';
 
-const PUSH_ENDPOINT = 'https://10.26.14.188:8080/NotificationHandler';
 
 export default class LoadingScreen extends React.Component {
   componentDidMount() {
-    async function registerForPushNotificationsAsync() {
-      const { status: existingStatus } = await Permissions.getAsync(
-        Permissions.NOTIFICATIONS
-      );
-      let finalStatus = existingStatus;
-    
-      // only ask if permissions have not already been determined, because
-      // iOS won't necessarily prompt the user a second time.
-      if (existingStatus !== 'granted') {
-        // Android remote notification permissions are granted during the app
-        // install, so this will only ask on iOS
-        const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-        finalStatus = status;
-      }
-    
-      // Stop here if the user did not grant permissions
-      if (finalStatus !== 'granted') {
-        return;
-      }
-    
-      // Get the token that uniquely identifies this device
-      let token = await Notifications.getExpoPushTokenAsync();
-    
-      // POST the token to your backend server from where you can retrieve it to send push notifications.
-      return fetch(PUSH_ENDPOINT, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          token: {
-            value: token,
-          },
-          user: {
-            username: 'Brent',
-          },
-        }),
-      });
-    }
-    // registerForPushNotificationsAsync()
-    // .then(()=>{
-    //   console.log("get logging in");
-    // });
     //store userid in async storage
     _storeData = async (key, value) => {
       try {
@@ -65,11 +20,21 @@ export default class LoadingScreen extends React.Component {
         if(user != null){
           var userId = user.uid;
           var email = user.email;
+          var isGuest = firebase.auth().currentUser.isAnonymous;
           console.log("user id: " + userId);
           console.log("user email: " + email);
+          
+          console.log("guest " + firebase.auth().currentUser.isAnonymous);
           //store the user info into session and back to the servlet
           _storeData('userid',userId);
-          _storeData('email',email);
+          if(isGuest == false){
+            _storeData('email',email);
+            _storeData('guest','false');
+          }
+          else{
+            _storeData('guest','true');
+            _storeData('email','null');
+          }
         }
         this.props.navigation.navigate(user ? 'Spotify' : 'Login')
     })

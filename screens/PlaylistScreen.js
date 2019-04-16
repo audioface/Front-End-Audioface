@@ -29,6 +29,7 @@ export default class PlaylistScreen extends Component {
     // console.log(screenProps)
     const playList = screenProps['playlist'] || 'NO-ID';
     console.log(playList + " in playlist");
+    const [title, song1, song2, song3] = playList.split("~~");
       return(
         <View style={{flex: 2, backgroundColor: '#FDFAF3'}}>
           <ScrollView>
@@ -37,9 +38,9 @@ export default class PlaylistScreen extends Component {
                 <Text style={{marginTop: 40, fontSize: 35, color: global.logoColor}}>My Playlists</Text>
               </View>
               <View style={{flex: 1, flexDirection:'column', alignItems: 'stretch', marginTop: 10}}>
-                  <PlaylistData emotion='Happy'/>
-                  <PlaylistData emotion='Sad'/>
-                  <PlaylistData emotion='Excited'/>
+                  <PlaylistData emotion= {title} song1 = {song1} song2 = {song2} song3 ={song3}/>
+                  <PlaylistData emotion= {title} song1 = {song1} song2 = {song2} song3 ={song3}/>
+                  <PlaylistData emotion= {title} song1 = {song1} song2 = {song2} song3 ={song3}/>
               </View>
           </ScrollView>
         </View>
@@ -51,7 +52,7 @@ class Song extends Component{
     render(){
         return (
             <View style={{alignItems: 'center', margin:10}}>
-              <Text style={{fontSize: 20}}>{this.props.song} by {this.props.artist}</Text>
+              <Text style={{fontSize: 20}}>{this.props.song}</Text>
             </View>
         );
     }
@@ -60,9 +61,9 @@ class SongData extends Component{
     render(){
         return(
             <View style={{alignItems:'center'}}>
-                <Song song='Hello' artist='Adele'/>
-                <Song song='Hello' artist='Adele'/>
-                <Song song='Hello' artist='Adele'/>
+                <Song song= {this.props.data} />
+                <Song song= {this.props.data2} />
+                <Song song= {this.props.data3} />
             </View>
         );
     }
@@ -82,7 +83,7 @@ class PlaylistData extends Component{
               <Image source={pic} style={{height:200, width:200}}/>
             </TouchableOpacity>
             <Text style={styles.title}>{this.props.emotion}</Text>
-            <SongData/>
+            <SongData data = {this.props.song1} data2 = {this.props.song2} data3 = {this.props.song3}/>
         </View>
     );
   }
@@ -94,7 +95,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-  },
+  }
+  ,
   title:{
     fontSize: 25, 
     flex:1,
