@@ -73,29 +73,9 @@ export default class App extends React.Component {
         />
 
         <ScrollView style={{ marginTop:'5%', width:'100%', fontSize: 18 }}>
-          <User username='Emaad' name='Basil' />
-          <User username='Emaad' name='Vivian' />
-          <User username='Emaad' name='Brandon' />
-          <User username='Emaad' name='Stacy' />
-          <User username='Emaad' name='John' />
-          <User username='Emaad' name='Alex' />
-          <User username='Emaad' name='Joey' />
-          <User username='Emaad' name='Connor' />
-          <User username='Emaad' name='Stacy' />
-          <User username='Emaad' name='John' />
-          <User username='Emaad' name='Alex' />
-          <User username='Emaad' name='Joey' />
-          <User username='Emaad' name='Connor' />
-          <User username='Emaad' name='Stacy' />
-          <User username='Emaad' name='John' />
-          <User username='Emaad' name='Alex' />
-          <User username='Emaad' name='Joey' />
-          <User username='Emaad' name='Connor' />
-          <User username='Emaad' name='Stacy' />
-          <User username='Emaad' name='John' />
-          <User username='Emaad' name='Alex' />
-          <User username='Emaad' name='Joey' />
-          <User username='Emaad' name='Connor' />
+          <User username='Brandon' name='Basil' />
+          <User username='Brandon' name='Vivian' />
+          <User username='Brandon' name='Stacy' />
         </ScrollView>
       </View>
     );
