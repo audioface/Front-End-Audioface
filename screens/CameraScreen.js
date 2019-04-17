@@ -31,7 +31,6 @@ export default class CameraScreen extends Component {
         showGallery: false,
         showMoreOptions: false,
         mImage: null,
-        cameraUri: "null",
         Debug: "debug",
         selectedIndex:1,
         positionArray:{},
@@ -45,7 +44,8 @@ export default class CameraScreen extends Component {
         refreshToken:null,
         email:null,
         playlist:null,
-        isGuest: null
+        isGuest: null,
+        cameraUri:null
     };
   }
   async componentWillMount() {
@@ -105,7 +105,7 @@ export default class CameraScreen extends Component {
         console.log(error);
       }
     }
-    fetch("http://10.26.183.223:8080/SpotifyAPI_FinalProject/HandleImage", {
+    fetch("http://10.26.229.35:8080/SpotifyAPI_FinalProject/HandleImage", {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'multipart/form-data'
@@ -120,7 +120,8 @@ export default class CameraScreen extends Component {
       console.log("in my string: " + mString);
       this.props.navigation.setParams({'playlist': mString});
       this.props.navigation.navigate('Playlists', {
-        playlist: mString
+        playlist: mString,
+        cameraUri: this.state.cameraUri
       });
     })
     .catch(error=>{
@@ -129,7 +130,13 @@ export default class CameraScreen extends Component {
   }
 
 
-
+  _storeData = async (key, value) => {
+    try {
+      await AsyncStorage.setItem(key, value);
+    } catch (error) {
+      // Error saving data
+    }
+  };
   
   onPictureSaved = async photo => {
       try {
@@ -138,6 +145,7 @@ export default class CameraScreen extends Component {
           [{flip: {horizontal: true}}], 
           { format: 'jpeg' });
         this.setState({cameraUri: manipResult.uri});
+        _storeData('cameraUri',this.state.cameraUri);
         this.sendPhoto();
         // uploadUrl = await this.uploadImageAsync(manipResult.uri);
         // this.setState({ CameraUrl: uploadUrl });

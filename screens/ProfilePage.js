@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 
-class ProfileItem extends React.Component {
+export default class ProfileItem extends React.Component {
     
     constructor() {
         super();
@@ -42,13 +42,15 @@ class ProfileItem extends React.Component {
     }
 }
 
-export default class ProfilePage extends React.Component {
+// export default class ProfilePage extends React.Component {
     
-    constructor(props) {
-        super(props);
-    }
+//     constructor(props) {
+//         super(props);
+//     }
 
-    render() {
-
-    }
-}
+//     render() {
+//         return(
+//             <View></View>
+//         );
+//     }
+// }
