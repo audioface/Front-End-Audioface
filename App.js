@@ -37,12 +37,17 @@ class PlaylistScreenWrapper extends Component {
   }
 }
 
-const profileNav = createSwitchNavigator({
+const profileNav = createStackNavigator({
   Profile:{
     screen:ProfilePage
   },
   Friend:{
     screen:FriendPage
+  }
+},{
+  headerMode:'none',
+  navigationOptions: {
+      header: null // Will hide header for all screens of current stack navigator,
   }
 });
 
@@ -99,7 +104,6 @@ const accountNav = createSwitchNavigator({
   },
   Home:{
     screen: mainPage
-    // screen:PlaylistNav
   },
   Login:{
     screen: LoginScreen

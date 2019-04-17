@@ -17,26 +17,31 @@ export default class LoadingScreen extends React.Component {
     };
 
     firebase.auth().onAuthStateChanged(user => {
+        let route = 'Spotify'
         if(user != null){
           var userId = user.uid;
           var email = user.email;
           var isGuest = firebase.auth().currentUser.isAnonymous;
+          // console.log(user);
           console.log("user id: " + userId);
           console.log("user email: " + email);
           
           console.log("guest " + firebase.auth().currentUser.isAnonymous);
           //store the user info into session and back to the servlet
           _storeData('userid',userId);
+          //registered user
           if(isGuest == false){
             _storeData('email',email);
             _storeData('guest','false');
           }
+          //guest user
           else{
             _storeData('guest','true');
             _storeData('email','null');
+            route = 'Camera'
           }
         }
-        this.props.navigation.navigate(user ? 'Spotify' : 'Login')
+        this.props.navigation.navigate(user ? route : 'Login')
     })
   }
   render() {

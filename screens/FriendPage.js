@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, Button, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-navigation';
 
 class User extends React.Component {
 
@@ -40,14 +41,14 @@ class User extends React.Component {
     if(this.state.buttonClicked) {
       return (
         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', padding: 10, width: '100%' }}>
-          <Text style={{ fontSize: 18 }}>{this.props.name}</Text>
-          <Button title="Remove Friend" onPress={() => this.removeFriend()} color='red'></Button>
+          <Text style={{ fontSize: 18, color:global.themeColor }}>{this.props.name}</Text>
+          <Button title="Remove" onPress={() => this.removeFriend()} color='red'></Button>
         </View>
       );
     } else {
       return (
         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', padding: 10, width: '100%' }}>
-          <Text style={{ fontSize: 18 }}>{this.props.name}</Text>
+          <Text style={{ fontSize: 18, color:global.themeColor }}>{this.props.name}</Text>
           <Button title="Friend" onPress={() => this.addFriend()} color='green'></Button>
         </View>
       );
@@ -64,20 +65,22 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1, marginTop: "14%", alignItems: "center" }}>
-        <TextInput
-          style={{ height: 40, borderColor: 'gray', borderWidth: 1, width:'50%', paddingLeft:'2%', fontSize: 18 }}
-          placeholder='Find Friends...'
-          onChangeText={(text) => this.setState({ text })}
-          value={this.state.text}
-        />
+      <SafeAreaView style={styles.container}>
+        <View style={{ flex: 1, marginTop: "14%", alignItems: "center",width:450 }}>
+          <TextInput
+            style={{ height: 40, borderColor: 'gray', borderWidth: 1, width:320, paddingLeft:'2%', fontSize: 18 }}
+            placeholder='Find Friends...'
+            onChangeText={(text) => this.setState({ text })}
+            value={this.state.text}
+          />
 
-        <ScrollView style={{ marginTop:'5%', width:'100%', fontSize: 18 }}>
-          <User username='Brandon' name='Basil' />
-          <User username='Brandon' name='Vivian' />
-          <User username='Brandon' name='Stacy' />
-        </ScrollView>
-      </View>
+          <ScrollView style={{ marginTop:'5%', width:'100%', fontSize: 18 }}>
+            <User username='bchatha@usc.edu' name='Basil' />
+            <User username='tongyu@usc.edu' name='Vivian' />
+            <User username='stacypha@usc.edu' name='Stacy' />
+          </ScrollView>
+        </View>
+      </SafeAreaView>
     );
   }
 }
@@ -88,5 +91,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-  }
+    backgroundColor: global.background,
+  },
 });
