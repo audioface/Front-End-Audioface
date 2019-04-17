@@ -75,9 +75,15 @@ export default class App extends React.Component {
           />
 
           <ScrollView style={{ marginTop:'5%', width:'100%', fontSize: 18 }}>
+<<<<<<< HEAD
             <User username='sapalo@usc.edu' name='bchatha@usc.edu' />
             <User username='sapalo@usc.edu' name='tongyu@usc.edu' />
             <User username='sapalo@usc.edu' name='stacypha@usc.edu' />
+=======
+            <User username='bchatha@usc.edu' name='Basil' />
+            <User username='tongyu@usc.edu' name='Vivian' />
+            <User username='stacypha@usc.edu' name='Stacy' />
+>>>>>>> 33676a2... fix profile and navigation
           </ScrollView>
         </View>
       </SafeAreaView>
