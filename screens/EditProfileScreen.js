@@ -30,11 +30,11 @@ export default class EditProfileScreen extends Component {
       des: '',
     }
 
-    this.saveChanges = this.saveChanges.bind(this);
-    this.handleNameChange = this.handleNameChange.bind(this);
-    this.handlePwChange = this.handlePwChange.bind(this);
-    this.handbleDobChange = this.handbleDobChange.bind(this);
-    this.handleDesChange = this.handleDesChange.bind(this);
+    // this.saveChanges = this.saveChanges.bind(this);
+    // this.handleNameChange = this.handleNameChange.bind(this);
+    // this.handlePwChange = this.handlePwChange.bind(this);
+    // this.handbleDobChange = this.handbleDobChange.bind(this);
+    // this.handleDesChange = this.handleDesChange.bind(this);
   }
   saveChanges = () => {
     // TO DO: Make ajax call to send back data changes
