@@ -17,6 +17,10 @@ class User extends React.Component {
     this.setState({
       buttonClicked: true
     });
+    
+    fetch(`http://192.168.1.245/AudioFace-Backend/AddFriendServlet?friend1Userid=${ this.props.username }&friend2Userid=${ this.props.name }`, {
+      method: 'POST'
+    });
   }
 
   removeFriend() {
@@ -26,10 +30,9 @@ class User extends React.Component {
       buttonClicked: false
     });
 
-    fetch("http://192.168.1.245/AudioFace-Backend/AddFriendServlet", {
-      method: 'POST',
-      body: "friend1Userid=" + this.props.username + "&friend2Userid=" + this.props.name
-    })
+    fetch(`http://192.168.1.245/AudioFace-Backend/RemoveFriendServlet?friend1Userid=${ this.props.username }&friend2Userid=${ this.props.name }`, {
+      method: 'POST'
+    });
   }
 
   render() {
