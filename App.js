@@ -9,13 +9,12 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
 import CameraScreeen from './screens/CameraScreen';
-import ProfileScreen from './screens/ProfileScreen';
+import ProfilePage from './screens/ProfilePage';
 import PlaylistScreen from './screens/PlaylistScreen';
 import LoadingScreen from './screens/LoadingScreen';
 import SongScreen from './screens/SongScreen';
-import EditProfileScreen from './screens/EditProfileScreen';
-import SavedProfileScreen from './screens/SavedProfileScreen';
 import SpotifyScreen from './screens/SpotifyScreen';
+import FriendPage from './screens/FriendPage';
 import apiKeys from './apiKeys';
 import * as firebase from 'firebase';
 
@@ -39,11 +38,11 @@ class PlaylistScreenWrapper extends Component {
 }
 
 const profileNav = createSwitchNavigator({
-  editProfile:{
-    screen:EditProfileScreen
+  Profile:{
+    screen:ProfilePage
   },
-  savedProfile:{
-    screen:SavedProfileScreen
+  Friend:{
+    screen:FriendPage
   }
 });
 
