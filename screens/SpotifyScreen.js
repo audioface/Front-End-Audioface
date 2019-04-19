@@ -31,11 +31,13 @@ export default class SpotifyScreen extends Component {
                             'playlist-modify-private','user-read-recently-played','user-top-read','ugc-image-upload','user-read-private',
                             'user-read-email', 'user-follow-read', 'user-follow-modify'];
         var scopes = scopesArr.join(' ');
+        // conosle.log(AuthSession.getRedirectUrl());
         getAuthorizationCode = async () => {
             let result = null;
             try {
                 const credentials = spotifyCredentials; //we wrote this function above
-                const redirectUrl = AuthSession.getRedirectUrl(); //this will be something like https://auth.expo.io/@your-username/your-app-slug
+                const redirectUrl = AuthSession.getRedirectUrl(); 
+                console.log(redirectUrl)//this will be something like https://auth.expo.io/@your-username/your-app-slug
                 result = await AuthSession.startAsync({
                     authUrl:
                     'https://accounts.spotify.com/authorize' +
@@ -126,14 +128,11 @@ export default class SpotifyScreen extends Component {
     }
 
     async componentDidMount() {
-        const tokenExpirationTime = this.state.expirationTime;
-        if (!tokenExpirationTime || new Date().getTime() > tokenExpirationTime) {
-        await refreshTokens();
-        } else {
-        this.setState({ accessTokenAvailable: true });
-        }
-        // if(this.state.accessTokenAvailable == true){
-        //     this.props.navigation.navigate('Home')
+        // const tokenExpirationTime = this.state.expirationTime;
+        // if (!tokenExpirationTime || new Date().getTime() > tokenExpirationTime) {
+        // await refreshTokens();
+        // } else {
+        // this.setState({ accessTokenAvailable: true });
         // }
     }
   

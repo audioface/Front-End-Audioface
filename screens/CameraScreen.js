@@ -105,7 +105,7 @@ export default class CameraScreen extends Component {
         console.log(error);
       }
     }
-    fetch("http://10.26.229.35:8080/SpotifyAPI_FinalProject/HandleImage", {
+    fetch("http://172.20.10.5:8080/SpotifyAPI_FinalProject/HandleImage", {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'multipart/form-data'

@@ -19,7 +19,7 @@ class User extends React.Component {
       buttonClicked: true
     });
     
-    fetch(`http://192.168.1.245/AudioFace-Backend/AddFriendServlet?friend1Userid=${ this.props.username }&friend2Userid=${ this.props.name }`, {
+    fetch(`http://172.20.10.2:8080/AudioFace-Backend/AddFriendServlet?friend1Userid=${ this.props.username }&friend2Userid=${ this.props.name }`, {
       method: 'POST'
     });
   }
@@ -31,7 +31,7 @@ class User extends React.Component {
       buttonClicked: false
     });
 
-    fetch(`http://192.168.1.245/AudioFace-Backend/RemoveFriendServlet?friend1Userid=${ this.props.username }&friend2Userid=${ this.props.name }`, {
+    fetch(`http://172.20.10.2:8080/AudioFace-Backend/RemoveFriendServlet?friend1Userid=${ this.props.username }&friend2Userid=${ this.props.name }`, {
       method: 'POST'
     });
   }
@@ -75,9 +75,9 @@ export default class App extends React.Component {
           />
 
           <ScrollView style={{ marginTop:'5%', width:'100%', fontSize: 18 }}>
-            <User username='bchatha@usc.edu' name='Basil' />
-            <User username='tongyu@usc.edu' name='Vivian' />
-            <User username='stacypha@usc.edu' name='Stacy' />
+            <User username='sapalo@usc.edu' name='bchatha@usc.edu' />
+            <User username='sapalo@usc.edu' name='tongyu@usc.edu' />
+            <User username='sapalo@usc.edu' name='stacypha@usc.edu' />
           </ScrollView>
         </View>
       </SafeAreaView>
